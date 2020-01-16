@@ -26,7 +26,7 @@ x = np.append(inter_.T, x, axis=1)
 class LinearRegression:
     
     
-    def __init__(self,X_train, y_train, max_iter=500, lr=0.0001):
+    def __init__(self,X_train, y_train, max_iter=100000, lr=0.0001):
         self.X_train = X_train
         self.y_train = y_train
         self.max_iter = max_iter
@@ -57,8 +57,8 @@ class LinearRegression:
             cost = (1 / (2 * n)) * np.sum(np.square(y_pred - np.array([y_train]).T))
             cost_history[i] = cost
             
-            if abs(all((self.lr/ n)*(np.dot(X_train.T,y_pred-np.array([y_train]).T))) <10**-3):
-                print(True)
+            if (abs((1/ n)*(np.dot(X_train.T,y_pred-np.array([y_train]).T))) < 10**-3).all():
+                print('Convergence')
                 break
 
         print("theta = {}"
@@ -89,5 +89,3 @@ coef = lr.fit(x, y)
 
 predict = lr.predict(x2)
 
-
-check = np.array([[0.001,0.002,0.003],[0.004,0.005,0.006]])
