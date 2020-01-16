@@ -9,6 +9,7 @@ This is a temporary script file.
 
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 data = pd.read_csv(r"C:\Users\joseph.foley\Downloads\linear_data.csv")
 
@@ -25,7 +26,7 @@ x = np.append(inter_.T, x, axis=1)
 class LinearRegression:
     
     
-    def __init__(self,X_train, y_train, max_iter=1000, lr=0.0001):
+    def __init__(self,X_train, y_train, max_iter=500, lr=0.0001):
         self.X_train = X_train
         self.y_train = y_train
         self.max_iter = max_iter
@@ -55,14 +56,13 @@ class LinearRegression:
 
             cost = (1 / (2 * n)) * np.sum(np.square(y_pred - np.array([y_train]).T))
             cost_history[i] = cost
+            
+            if abs(all((self.lr/ n)*(np.dot(X_train.T,y_pred-np.array([y_train]).T))) <10**-3):
+                print(True)
+                break
 
-            # if abs((1 / n) * lr * (X_train.T.dot((y_pred - y_train)))).any() < 10**-2:
-            #     print('Decrease is too small, close to convergence')
-            #     print((1 / n) * lr * (X_train.T.dot((y_pred - y_train))))
-            #     break
-
-        #print("theta = {}"
-        #      .format(theta))
+        print("theta = {}"
+              .format(theta))
 
         return theta
 
@@ -72,7 +72,7 @@ class LinearRegression:
         coef = self.fit(self.X_train, self.y_train)
         X_test = np.append(inter_.T, X_test, axis=1)
         for value in X_test:
-            predictions.append((np.dot(value, coef)))
+            predictions.append((np.dot(value, coef))[0])
         print(predictions)
         return predictions
 
@@ -86,4 +86,8 @@ lr = LinearRegression(x, y)
 
 coef = lr.fit(x, y)
 
+
 predict = lr.predict(x2)
+
+
+check = np.array([[0.001,0.002,0.003],[0.004,0.005,0.006]])
