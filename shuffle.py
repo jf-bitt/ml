@@ -1,4 +1,4 @@
-# accept string , extract numbers , take all possible combination of those numbers
+
 
 def find_numbers(string):
     
@@ -8,35 +8,32 @@ def find_numbers(string):
     return string_ints
 
 
-def combinations(list):
+def permutation(wilson):
     
-    list = find_numbers(list)
-    comb = []
-    all_combinations = False
-    i = 0
+    list_of_numbers = find_numbers(wilson)
+  
+    if len(list_of_numbers) == 0:
+        print('There are no combinations')
+        return None
     
-    while all_combinations == False:
+    if len(list_of_numbers) == 1: 
+        return [list_of_numbers] 
+  
+    combinations = [] 
+  
+    for i in range(len(list_of_numbers)):
         
-        combinations = ''
+        first_part = list_of_numbers[i]
+        remainder_list = list_of_numbers[:i] + list_of_numbers[i+1:]
         
-        for integer in list:
-            combinations += integer
-                
-        if combinations not in comb:
-            comb.append(combinations)
-            i = i + 1
-            continue
-        
-        else:
-            all_combinations = True
-            print('All combinations have been found')
-            
-    return comb
+        ## reocurrance
+        for p in permutation(remainder_list):
+            combinations.append([first_part] + p) 
+    
+    return combinations
 
 
-def shuffle_numbers(list):
-    fake = []
-    for i in range(0, len(list)):
-        list = list[:i] + list[i:]
-        fake.append(list)
-        
+x = 'HELLO WILL 3 5'
+
+perms = permutation(x)
+print(perms)
